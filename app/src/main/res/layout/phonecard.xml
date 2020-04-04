@@ -63,7 +63,8 @@
             android:textColor="#000000"
             android:textSize="10sp"
             app:layout_constraintStart_toEndOf="@+id/mac"
-            app:layout_constraintTop_toBottomOf="@+id/phone" />
+            app:layout_constraintTop_toBottomOf="@+id/phone"
+            />
 
         <TextView
             android:id="@+id/ping"

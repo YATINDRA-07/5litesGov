@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,19 +48,21 @@ public class MainActivity extends AppCompatActivity {
     private final String COGNITO_POOL_ID =  "ap-south-1:402f5cc9-0567-4261-bc92-768d44d79b08";
     private final Region COGNITO_REGION =  Region.getRegion("ap-south-1");
     private Context context;
+    private EditText editText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ll = findViewById(R.id.phonelist);
         Button button = (Button) findViewById(R.id.button);
+        editText=findViewById(R.id.search);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("CLICKED");
                 Log.d("button","Clicked");
                 GetAllItemsAsyncTask getAllItemsAsyncTask = new GetAllItemsAsyncTask();
                 try{
-                    Document i = getAllItemsAsyncTask.execute("a4:45:23:51:i6").get();
+                    Document i = getAllItemsAsyncTask.execute(editText.getText().toString()).get();
 
 //                    System.out.println("O/P::" + i.toString());
                     Log.d("button",i.toString());
