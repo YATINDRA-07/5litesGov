@@ -45,6 +45,8 @@
             android:text="Mac ID:"
             android:textColor="#000000"
             android:textSize="10sp"
+
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone" />
 

@@ -12,8 +12,11 @@ import com.amazonaws.mobileconnectors.dynamodbv2.document.datatype.Document;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.widget.Button;
 import android.view.View;
+import androidx.cardview.widget.CardView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     Button button;
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                // Do something in response to button click
+
             }
         });
         //Changes:
