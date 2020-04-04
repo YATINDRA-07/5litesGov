@@ -4,10 +4,12 @@ public class PingNode {
     private String macid;
     private int no_pings;
     private String timestamp;
-    public PingNode(String macid, int no_pings, String timestamp) {
+    private String phn_no;
+    public PingNode(String macid, int no_pings, String timestamp, String phn_no) {
         this.macid = macid;
         this.no_pings = no_pings;
         this.timestamp = timestamp;
+        this.phn_no = phn_no;
     }
 
     public String getMacid() {
@@ -16,6 +18,14 @@ public class PingNode {
 
     public void setMacid(String macid) {
         this.macid = macid;
+    }
+
+    public String getPhn_no() {
+        return phn_no;
+    }
+
+    public void setPhn_no(String phn_no) {
+        this.phn_no = phn_no;
     }
 
     public int getNo_pings() {

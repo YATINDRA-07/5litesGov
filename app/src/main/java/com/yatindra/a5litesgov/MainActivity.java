@@ -67,7 +67,17 @@ public class MainActivity extends AppCompatActivity {
                     List<PingNode> pingNodes = new ArrayList<>();//List<>();
                     for(Map.Entry<String, DynamoDBEntry> set : i.entrySet()) {
                         Log.d("button", "KEY : " + set.getKey() + "\nValue : " + set.getValue());
-                        pingNodes.add(new PingNode(set.getKey(), (int)Integer.parseInt(set.getValue().asDocument().get("no_pings").asInt().toString()), set.getValue().asDocument().get("timestamp").asString()));
+                        String phone = new String();
+                        GetAllItemsAsyncTask getAllItemsAsyncTask1 = new GetAllItemsAsyncTask();
+                        try{
+                            Document j = getAllItemsAsyncTask1.execute(set.getKey()).get();
+                            if(!j.get("phn_no").asString().equals(null)) {
+                                phone = j.get("phn_no").asString();
+                            }
+                        }catch(Exception e) {
+
+                        }
+                        pingNodes.add(new PingNode(set.getKey(), (int)Integer.parseInt(set.getValue().asDocument().get("no_pings").asInt().toString()), set.getValue().asDocument().get("timestamp").asString(), phone));
                     }
                     Log.d("button","DONE!" + pingNodes.get(0).getNo_pings());
                     for(int ij=0;ij<pingNodes.size();ij++) {
@@ -76,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         mac.setText(pingNodes.get(ij).getMacid());
                         pings.setText(Integer.toString(pingNodes.get(ij).getNo_pings()));
                         timestamp.setText(pingNodes.get(ij).getTimestamp());
+                        phone.setText(pingNodes.get(ij).getPhn_no());
                         ll.addView(card);
                     }
 //                    Log.d("button",entry.toString());
