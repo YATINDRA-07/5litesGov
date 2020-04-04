@@ -1,6 +1,8 @@
 package com.yatindra.a5litesgov;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.amazonaws.mobileconnectors.dynamodbv2.document.datatype.DynamoDBEntry;
 import com.amazonaws.mobileconnectors.dynamodbv2.document.datatype.DynamoDBList;
 import com.amazonaws.regions.Region;
@@ -10,15 +12,22 @@ import com.amazonaws.mobileconnectors.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.document.datatype.Document;
+import com.yatindra.a5litesgov.model.PingNode;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.Button;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     //    Button bt1,bt2;
     Button mButton;
     Boolean flag;
+    LinearLayout ll, outerll;
     private final String COGNITO_POOL_ID =  "ap-south-1:402f5cc9-0567-4261-bc92-768d44d79b08";
     private final Region COGNITO_REGION =  Region.getRegion("ap-south-1");
     private Context context;
@@ -41,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ll = findViewById(R.id.phonelist);
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -53,10 +64,20 @@ public class MainActivity extends AppCompatActivity {
 //                    System.out.println("O/P::" + i.toString());
                     Log.d("button",i.toString());
                     i = (Document)i.get("Pings");
+                    List<PingNode> pingNodes = new ArrayList<>();//List<>();
                     for(Map.Entry<String, DynamoDBEntry> set : i.entrySet()) {
                         Log.d("button", "KEY : " + set.getKey() + "\nValue : " + set.getValue());
+                        pingNodes.add(new PingNode(set.getKey(), (int)Integer.parseInt(set.getValue().asDocument().get("no_pings").asInt().toString()), set.getValue().asDocument().get("timestamp").asString()));
                     }
-                    Log.d("button","DONE!");
+                    Log.d("button","DONE!" + pingNodes.get(0).getNo_pings());
+                    for(int ij=0;ij<pingNodes.size();ij++) {
+                        CardView card = (CardView) LayoutInflater.from(getApplicationContext()).inflate(R.layout.phonecard, null);
+                        TextView mac = card.findViewById(R.id.mac_text) , pings = card.findViewById(R.id.ping_text) , timestamp = card.findViewById(R.id.timestamp), phone = card.findViewById(R.id.phone_text);
+                        mac.setText(pingNodes.get(ij).getMacid());
+                        pings.setText(Integer.toString(pingNodes.get(ij).getNo_pings()));
+                        timestamp.setText(pingNodes.get(ij).getTimestamp());
+                        ll.addView(card);
+                    }
 //                    Log.d("button",entry.toString());
 ////                    entry.asDynamoDBList();
 //                        entry = i.get("Pings");
